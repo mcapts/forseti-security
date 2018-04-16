@@ -54,7 +54,7 @@ REQUIRED_PACKAGES = [
     'google-apputils>=0.4.2',
     'grpcio',
     'grpcio-tools',
-    'protobuf>=3.2.0',
+    'protobuf',
     # Testing related.
     'mock>=2.0.0',
     'parameterized>=0.6.1',
@@ -62,6 +62,9 @@ REQUIRED_PACKAGES = [
     'pylint',
     'pylint-quotes',
     'SQLAlchemy>=1.1.9',
+    # CI/CD related
+    'codecov',
+    'pylint',
 ]
 
 if sys.version_info < (2, 7):
@@ -85,24 +88,21 @@ def build_forseti_protos(clean_only=False):
 
 class BuildProtosCommand(install):
     """A command to build protos in all children directories."""
-
     def run(self):
         build_forseti_protos()
 
 
 class CleanProtosCommand(install):
     """A command to clean protos in all children directories."""
-
     def run(self):
         build_forseti_protos(clean_only=True)
 
 
 class PostInstallCommand(install):
     """Post installation command."""
-
     def run(self):
-        build_forseti_protos()
         install.do_egg_install(self)
+        build_forseti_protos()
 
 
 setup(

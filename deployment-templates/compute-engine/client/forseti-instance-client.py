@@ -128,7 +128,6 @@ cd forseti-security
 
 # Forseti dependencies
 pip install -q --upgrade setuptools pip wheel
-pip install -q --upgrade -r requirements.txt
 
 # Install Forseti
 python setup.py install
