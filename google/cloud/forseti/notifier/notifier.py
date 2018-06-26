@@ -197,7 +197,8 @@ def run(inv_index_id, progress_queue, service_config=None):
                     notifier_configs.get('violation').get('cscc').get('enabled')):
                 cscc_notifier.CsccNotifier(inv_index_id).run(
                     violations_as_dict,
-                    notifier_configs.get('violation').get('cscc').get('gcs_path'))
+                    notifier_configs.get('violation').get('cscc').get('gcs_path'),
+                    notifier_configs.get('violation').get('cscc').get('mode'))
             # pylint: enable=line-too-long
 
         run_inv_summary(inv_index_id, service_config)
