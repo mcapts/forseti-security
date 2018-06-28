@@ -41,6 +41,7 @@ class SecurityCenterRepositoryClient(_base_repository.BaseRepositoryClient):
             use_rate_limiter (bool): Set to false to disable the use of a rate
                 limiter for this service.
         """
+        LOGGER.info('SecurityCenterRepositoryClient')
         if not quota_max_calls:
             use_rate_limiter = False
 
@@ -65,16 +66,16 @@ class SecurityCenterRepositoryClient(_base_repository.BaseRepositoryClient):
 
 
 class _SecurityCenterOrganizationsFindingsRepository(
-        repository_mixins.CreateQueryMixin,
         _base_repository.GCPRepository):
     """Implementation of CSCC Organizations Findings repository."""
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         """Constructor.
 
         """
+        LOGGER.info('_SecurityCenterOrganizationsFindingsRepositoryClient')
         super(_SecurityCenterOrganizationsFindingsRepository, self).__init__(
-            component='securitycenter.organizations.findings')
+            component='securitycenter.organizations.findings', **kwargs)
 
 class SecurityCenterClient(object):
     """Cloud Security Command Center Client.
@@ -89,18 +90,18 @@ class SecurityCenterClient(object):
             global_configs (dict): Forseti config.
             **kwargs (dict): The kwargs.
         """
-        LOGGER.info('Entering CSCC Client init method.')
-
+        LOGGER.info('SecurityCenterClient')
         self.repository = SecurityCenterRepositoryClient()
 
-    def create_finding(self, organization_id, params):
+    def create_finding(self, organization_id, finding):
         """Creates a finding in CSCC.
 
         Args:
             organization_id (str): The id of the organization.
         """
         try:
-            response = self.repository.findings.create(organization_id, params)
+            LOGGER.info('Trying to create finding')
+            response = self.repository.findings.create(organization_id, finding)
             LOGGER.debug('Created finding in CSCC.')
             return
         except (errors.HttpError, HttpLib2Error) as e:
